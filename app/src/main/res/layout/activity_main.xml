@@ -1,0 +1,186 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:nestedScrollingEnabled="true"
+        android:orientation="vertical"
+        android:gravity="center">
+
+    <LinearLayout
+        android:id="@+id/homeworkButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="26dp">
+
+
+        <Button
+            android:id="@+id/addButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="17dp"
+            android:text="Add Homework" />
+
+
+        <Button
+            android:id="@+id/resetButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="17dp"
+            android:text="Reset Grades" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/homeworkLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/homeworkLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Homework 1" />
+
+        <EditText
+            android:id="@+id/homeworkField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="100"
+            android:inputType="numberDecimal" />
+
+
+    </LinearLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/attendance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:text="100"
+            android:maxLines="1"
+            android:maxLength="3"
+            android:digits="0123456789"
+            android:imeOptions="flagNoFullscreen"
+            android:imeActionLabel="Done"
+            android:hint="Attendance" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/groupPresentation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:maxLines="1"
+            android:maxLength="3"
+            android:digits="0123456789"
+            android:imeOptions="flagNoFullscreen"
+            android:imeActionLabel="Done"
+            android:text="100"
+            android:hint="Group Presentation" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/midterm1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:maxLines="1"
+            android:maxLength="3"
+            android:text="100"
+            android:digits="0123456789"
+            android:imeOptions="flagNoFullscreen"
+            android:imeActionLabel="Done"
+            android:hint="Midterm 1" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/midterm2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:maxLines="1"
+            android:maxLength="3"
+            android:text="100"
+            android:digits="0123456789"
+            android:imeOptions="flagNoFullscreen"
+            android:imeActionLabel="Done"
+            android:hint="Midterm 2" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/finalProject"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:maxLines="1"
+            android:maxLength="3"
+            android:text="100"
+            android:digits="0123456789"
+            android:imeOptions="flagNoFullscreen"
+            android:imeActionLabel="Done"
+            android:hint="Final Project" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/resetAllGrades"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Reset all grades" />
+
+    <Button
+        android:id="@+id/calculateButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Calculate" />
+
+    <TextView
+        android:id="@+id/finalGrade"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:paddingTop="16dp"
+        android:textAlignment="center" />
+
+
+    </LinearLayout>
+
+</ScrollView>
