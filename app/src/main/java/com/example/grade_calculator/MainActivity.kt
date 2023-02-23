@@ -36,7 +36,6 @@ class MainActivity : AppCompatActivity() {
     private var total = 0.0
     private var avg by Delegates.notNull<Double>()
 
-
     @SuppressLint("CutPasteId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,6 +68,7 @@ class MainActivity : AppCompatActivity() {
         val editTextM1 = findViewById<EditText>(R.id.midterm1)
         val editTextM2 = findViewById<EditText>(R.id.midterm2)
         val editTextFP = findViewById<EditText>(R.id.finalProject)
+        val editTextHF = findViewById<EditText>(R.id.homeworkField)
 
         val inputFilter = InputFilter { source, start, end, dest, dstart, dend ->
             val input = (dest.subSequence(0, dstart).toString() + source.subSequence(start, end) +
@@ -85,6 +85,7 @@ class MainActivity : AppCompatActivity() {
         editTextM1.filters = arrayOf(inputFilter)
         editTextM2.filters = arrayOf(inputFilter)
         editTextFP.filters = arrayOf(inputFilter)
+        editTextHF.filters = arrayOf(inputFilter)
 
 
         fun getEditTextValue(editText: EditText): Int {
@@ -181,7 +182,6 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
-
 
     private fun calculateFinalGrade(
         avg:Double,
