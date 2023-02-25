@@ -114,6 +114,7 @@ class MainActivity : AppCompatActivity() {
                     newHomeworkField.layoutParams = homeworkField.layoutParams
                     newHomeworkField.inputType = InputType.TYPE_CLASS_NUMBER or
                             InputType.TYPE_NUMBER_FLAG_DECIMAL
+                    newHomeworkField.filters = arrayOf(inputFilter)
                     homeworkLayout.addView(TextView(this).apply {
                         text = newHomeworkLabel
                     })
