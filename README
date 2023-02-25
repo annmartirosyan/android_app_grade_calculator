@@ -3,8 +3,7 @@ The user inputs values for attendance, group presentation, two midterms, a final
 and up to five homework assignments. The app applies weighted percentages to these values
 and calculates a final grade.
 
-![alt text](https://github.com/anna377/android_app_grade_calculator/blob/main/app_screenshot.png?raw=true)
-
+![alt text](https://github.com/Anna377/android_app_grade_calculator/blob/main/app/app_screenshot.png?raw=true)
 The following is a brief overview of the different parts of the code:
 
 
