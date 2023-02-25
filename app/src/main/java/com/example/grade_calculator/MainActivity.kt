@@ -76,7 +76,8 @@ class MainActivity : AppCompatActivity() {
             val input = (dest.subSequence(0, dstart).toString() + source.subSequence(start, end) +
                     dest.subSequence(dend, dest.length)).toString()
             if (input.length > 3 || (input.startsWith("0") && input.length > 1) ||
-                input.toDoubleOrNull() == null || input.toDouble() !in 0.0..100.0) {
+                input.toDoubleOrNull() == null || input.toDouble() !in 0.0..100.0
+            ) {
                 ""
             } else {
                 null
@@ -130,7 +131,8 @@ class MainActivity : AppCompatActivity() {
             removeButton.setOnClickListener {
                 if (homeworkCount > 1) {
                     homeworkFields.removeLast()?.let { removedField ->
-                        val removedLabelIndex = homeworkLayout.indexOfChild(removedField) - 1 // index of corresponding label
+                        val removedLabelIndex =
+                            homeworkLayout.indexOfChild(removedField) - 1 // index of corresponding label
                         homeworkLayout.removeViewAt(removedLabelIndex) // remove the label
                         homeworkLayout.removeView(removedField) // remove the field
                         homeworkCount--
@@ -172,12 +174,12 @@ class MainActivity : AppCompatActivity() {
                 total = 0.0
                 var count = 1
                 for (field in homeworkFields) {
-                    count +=1
+                    count += 1
                     total += field.text.toString().toDoubleOrNull() ?: 0.0
                 }
                 val hw1 = homeworkField.text.toString().toDoubleOrNull() ?: 0.0
                 total += hw1
-                avg= total/ count
+                avg = total / count
 
 
                 with(sharedPreferences.edit()) {
@@ -200,7 +202,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun calculateFinalGrade(
-        avg:Double,
+        avg: Double,
         attd: Int,
         grpPrs: Int,
         mid1: Int,
