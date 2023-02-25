@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var calculateButton: Button
     private lateinit var finalGrade: TextView
     private lateinit var addButton: Button
+    private lateinit var removeButton: Button
     private lateinit var homeworkField: EditText
     private lateinit var homeworkLayout: LinearLayout
     private lateinit var homeworkButtons: LinearLayout
@@ -49,6 +50,7 @@ class MainActivity : AppCompatActivity() {
         calculateButton = findViewById(R.id.calculateButton)
         finalGrade = findViewById(R.id.finalGrade)
         addButton = findViewById(R.id.addButton)
+        removeButton = findViewById(R.id.removeButton)
         homeworkField = findViewById(R.id.homeworkField)
         homeworkLayout = findViewById(R.id.homeworkLayout)
         homeworkButtons = findViewById(R.id.homeworkButtons)
@@ -125,6 +127,19 @@ class MainActivity : AppCompatActivity() {
                     addButton.isEnabled = false
                 }
             }
+            removeButton.setOnClickListener {
+                if (homeworkCount > 1) {
+                    homeworkFields.removeLast()?.let { removedField ->
+                        val removedLabelIndex = homeworkLayout.indexOfChild(removedField) - 1 // index of corresponding label
+                        homeworkLayout.removeViewAt(removedLabelIndex) // remove the label
+                        homeworkLayout.removeView(removedField) // remove the field
+                        homeworkCount--
+                        addButton.isEnabled = true
+                    }
+                }
+            }
+
+
         } catch (e: Exception) {
             e.printStackTrace()
         }
