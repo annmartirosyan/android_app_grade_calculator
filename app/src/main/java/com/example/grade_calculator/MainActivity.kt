@@ -36,7 +36,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         initializeViews()
-        loadSharedPreferences()
         applyFilters()
         setResetButtonListener()
         addHomeworkField()
@@ -56,12 +55,44 @@ class MainActivity : AppCompatActivity() {
         val editTextFP = findViewById<EditText>(R.id.finalProject)
         val editTextHF = findViewById<EditText>(R.id.homeworkField)
 
+        editTextGP.setText("100")
+        editTextAT.setText("100")
+        editTextM1.setText("100")
+        editTextM2.setText("100")
+        editTextFP.setText("100")
+        editTextHF.setText("100")
+
         editTextGP.filters = arrayOf(inputFilter)
         editTextAT.filters = arrayOf(inputFilter)
         editTextM1.filters = arrayOf(inputFilter)
         editTextM2.filters = arrayOf(inputFilter)
         editTextFP.filters = arrayOf(inputFilter)
         editTextHF.filters = arrayOf(inputFilter)
+
+
+        sharedPreferences = getSharedPreferences(sharedPreferencesKey, Context.MODE_PRIVATE)
+        val storedAttendanceGrade = sharedPreferences.getInt("attendanceGrade", 0)
+        val storedGroupPresentationGrade = sharedPreferences.getInt("groupPresentationGrade", 0)
+        val storedMidterm1Grade = sharedPreferences.getInt("midterm1Grade", 0)
+        val storedMidterm2Grade = sharedPreferences.getInt("midterm2Grade", 0)
+        val storedFinalProjectGrade = sharedPreferences.getInt("finalProjectGrade", 0)
+
+        if (storedAttendanceGrade != 0) {
+            editTextAT.setText(storedAttendanceGrade.toString())
+        }
+        if (storedGroupPresentationGrade != 0) {
+            editTextGP.setText(storedGroupPresentationGrade.toString())
+        }
+        if (storedMidterm1Grade != 0) {
+            editTextM1.setText(storedMidterm1Grade.toString())
+        }
+        if (storedMidterm2Grade != 0) {
+            editTextM2.setText(storedMidterm2Grade.toString())
+        }
+        if (storedFinalProjectGrade != 0) {
+            editTextFP.setText(storedFinalProjectGrade.toString())
+        }
+
     }
 
     private fun EditText.getIntValue(): Int {
@@ -80,14 +111,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun loadSharedPreferences() {
-        sharedPreferences = getSharedPreferences(sharedPreferencesKey, Context.MODE_PRIVATE)
-        attendanceEditText.setText(sharedPreferences.getInt("attendanceGrade", 0).toString())
-        groupPresentationEditText.setText(sharedPreferences.getInt("groupPresentationGrade", 0).toString())
-        midterm1EditText.setText(sharedPreferences.getInt("midterm1Grade", 0).toString())
-        midterm2EditText.setText(sharedPreferences.getInt("midterm2Grade", 0).toString())
-        finalProjectEditText.setText(sharedPreferences.getInt("finalProjectGrade", 0).toString())
-    }
 
     private fun createInputFilter(): InputFilter {
         return InputFilter { source, start, end, dest, dstart, dend ->
