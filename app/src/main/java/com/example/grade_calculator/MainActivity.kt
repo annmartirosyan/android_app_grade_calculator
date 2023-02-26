@@ -2,6 +2,7 @@ package com.example.grade_calculator
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.InputFilter
 import android.text.InputType
@@ -16,7 +17,8 @@ import kotlin.properties.Delegates
 class MainActivity : AppCompatActivity() {
 
     private val sharedPreferencesKey = "user_input_values"
-    private val homeworkFields = mutableListOf<EditText>()
+    private var homeworkFields = mutableListOf<EditText>()
+    private lateinit var sharedPreferences: SharedPreferences
 
     private lateinit var attendance: EditText
     private lateinit var groupPresentation: EditText
@@ -42,6 +44,40 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        initializeViews()
+        loadSharedPreferences()
+        applyFilters()
+        setResetButtonListener()
+        addHomeworkField()
+        setRemoveButton()
+        setResetAllGradesListener()
+        setCalculateButtonListener()
+
+    }
+
+    private fun applyFilters() {
+        val inputFilter = createInputFilter()
+
+        val editTextGP = findViewById<EditText>(R.id.groupPresentation)
+        val editTextAT = findViewById<EditText>(R.id.attendance)
+        val editTextM1 = findViewById<EditText>(R.id.midterm1)
+        val editTextM2 = findViewById<EditText>(R.id.midterm2)
+        val editTextFP = findViewById<EditText>(R.id.finalProject)
+        val editTextHF = findViewById<EditText>(R.id.homeworkField)
+
+        editTextGP.filters = arrayOf(inputFilter)
+        editTextAT.filters = arrayOf(inputFilter)
+        editTextM1.filters = arrayOf(inputFilter)
+        editTextM2.filters = arrayOf(inputFilter)
+        editTextFP.filters = arrayOf(inputFilter)
+        editTextHF.filters = arrayOf(inputFilter)
+    }
+
+    private fun getEditTextValue(editText: EditText): Int {
+        return editText.text.toString().toIntOrNull() ?: 0
+    }
+
+    private fun initializeViews() {
         attendance = findViewById(R.id.attendance)
         groupPresentation = findViewById(R.id.groupPresentation)
         midterm1 = findViewById(R.id.midterm1)
@@ -56,23 +92,19 @@ class MainActivity : AppCompatActivity() {
         homeworkButtons = findViewById(R.id.homeworkButtons)
         resetAllGrades = findViewById(R.id.resetAllGrades)
         resetButton = findViewById(R.id.resetButton)
+    }
 
-        val sharedPreferences = getSharedPreferences(sharedPreferencesKey, Context.MODE_PRIVATE)
+    private fun loadSharedPreferences() {
+        sharedPreferences = getSharedPreferences(sharedPreferencesKey, Context.MODE_PRIVATE)
         attendance.setText(sharedPreferences.getInt("attd", 0).toString())
         groupPresentation.setText(sharedPreferences.getInt("grpPrs", 0).toString())
         midterm1.setText(sharedPreferences.getInt("mid1", 0).toString())
         midterm2.setText(sharedPreferences.getInt("mid2", 0).toString())
         finalProject.setText(sharedPreferences.getInt("fp", 0).toString())
+    }
 
-
-        val editTextGP = findViewById<EditText>(R.id.groupPresentation)
-        val editTextAT = findViewById<EditText>(R.id.attendance)
-        val editTextM1 = findViewById<EditText>(R.id.midterm1)
-        val editTextM2 = findViewById<EditText>(R.id.midterm2)
-        val editTextFP = findViewById<EditText>(R.id.finalProject)
-        val editTextHF = findViewById<EditText>(R.id.homeworkField)
-
-        val inputFilter = InputFilter { source, start, end, dest, dstart, dend ->
+    private fun createInputFilter(): InputFilter {
+        return InputFilter { source, start, end, dest, dstart, dend ->
             val input = (dest.subSequence(0, dstart).toString() + source.subSequence(start, end) +
                     dest.subSequence(dend, dest.length)).toString()
             if (input.length > 3 || (input.startsWith("0") && input.length > 1) ||
@@ -83,18 +115,9 @@ class MainActivity : AppCompatActivity() {
                 null
             }
         }
-        editTextGP.filters = arrayOf(inputFilter)
-        editTextAT.filters = arrayOf(inputFilter)
-        editTextM1.filters = arrayOf(inputFilter)
-        editTextM2.filters = arrayOf(inputFilter)
-        editTextFP.filters = arrayOf(inputFilter)
-        editTextHF.filters = arrayOf(inputFilter)
+    }
 
-
-        fun getEditTextValue(editText: EditText): Int {
-            return editText.text.toString().toIntOrNull() ?: 0
-        }
-
+    private fun setResetButtonListener() {
         try {
             resetButton.setOnClickListener {
                 homeworkFields.forEach { editText ->
@@ -105,48 +128,48 @@ class MainActivity : AppCompatActivity() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
 
-
-        try {
-            addButton.setOnClickListener {
-                if (homeworkCount < 5) {
-                    homeworkCount++
-                    val newHomeworkLabel = "Homework $homeworkCount"
-                    val newHomeworkField = EditText(this)
-                    newHomeworkField.id = View.generateViewId()
-                    newHomeworkField.layoutParams = homeworkField.layoutParams
-                    newHomeworkField.inputType = InputType.TYPE_CLASS_NUMBER or
-                            InputType.TYPE_NUMBER_FLAG_DECIMAL
-                    newHomeworkField.filters = arrayOf(inputFilter)
-                    homeworkLayout.addView(TextView(this).apply {
-                        text = newHomeworkLabel
-                    })
-                    homeworkLayout.addView(newHomeworkField)
-                    homeworkFields.add(newHomeworkField)
-                }
-                if (homeworkCount == 5) {
-                    addButton.isEnabled = false
-                }
+    private fun addHomeworkField() {
+        val inputFilter = createInputFilter()
+        addButton.setOnClickListener {
+            if (homeworkCount < 5) {
+                homeworkCount++
+                val newHomeworkLabel = "Homework $homeworkCount"
+                val newHomeworkField = EditText(this)
+                newHomeworkField.id = View.generateViewId()
+                newHomeworkField.layoutParams = homeworkField.layoutParams
+                newHomeworkField.inputType = InputType.TYPE_CLASS_NUMBER or
+                        InputType.TYPE_NUMBER_FLAG_DECIMAL
+                newHomeworkField.filters = arrayOf(inputFilter)
+                homeworkLayout.addView(TextView(this).apply {
+                    text = newHomeworkLabel
+                })
+                homeworkLayout.addView(newHomeworkField)
+                homeworkFields.add(newHomeworkField)
             }
-            removeButton.setOnClickListener {
-                if (homeworkCount > 1) {
-                    homeworkFields.removeLast()?.let { removedField ->
-                        val removedLabelIndex =
-                            homeworkLayout.indexOfChild(removedField) - 1 // index of corresponding label
-                        homeworkLayout.removeViewAt(removedLabelIndex) // remove the label
-                        homeworkLayout.removeView(removedField) // remove the field
-                        homeworkCount--
-                        addButton.isEnabled = true
-                    }
-                }
+            if (homeworkCount == 5) {
+                addButton.isEnabled = false
             }
-
-
-        } catch (e: Exception) {
-            e.printStackTrace()
         }
+    }
 
+    private fun setRemoveButton() {
+        removeButton.setOnClickListener {
+            if (homeworkCount > 1) {
+                homeworkFields.removeLast()?.let { removedField ->
+                    val removedLabelIndex =
+                        homeworkLayout.indexOfChild(removedField) - 1 // index of corresponding label
+                    homeworkLayout.removeViewAt(removedLabelIndex) // remove the label
+                    homeworkLayout.removeView(removedField) // remove the field
+                    homeworkCount--
+                    addButton.isEnabled = true
+                }
+            }
+        }
+    }
 
+    private fun setResetAllGradesListener() {
         try {
             resetAllGrades.setOnClickListener {
                 attendance.text.clear()
@@ -162,7 +185,9 @@ class MainActivity : AppCompatActivity() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
 
+    private fun setCalculateButtonListener() {
         try {
             calculateButton.setOnClickListener {
                 val attd = getEditTextValue(attendance)
@@ -198,7 +223,6 @@ class MainActivity : AppCompatActivity() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
     }
 
     private fun calculateFinalGrade(
@@ -224,4 +248,6 @@ class MainActivity : AppCompatActivity() {
                 fp * fpWeight
     }
 }
+
+
 
