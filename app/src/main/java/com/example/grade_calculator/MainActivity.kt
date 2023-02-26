@@ -75,8 +75,6 @@ class MainActivity : AppCompatActivity() {
         midterm1 = findViewById(R.id.midterm1)
         midterm2 = findViewById(R.id.midterm2)
         finalProject = findViewById(R.id.finalProject)
-
-
         homeworkField = findViewById(R.id.homeworkField)
         homeworkLayout = findViewById(R.id.homeworkLayout)
         homeworkButtons = findViewById(R.id.homeworkButtons)
@@ -86,11 +84,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadSharedPreferences() {
         sharedPreferences = getSharedPreferences(sharedPreferencesKey, Context.MODE_PRIVATE)
-        attendance.setText(sharedPreferences.getInt("attd", 0).toString())
-        groupPresentation.setText(sharedPreferences.getInt("grpPrs", 0).toString())
-        midterm1.setText(sharedPreferences.getInt("mid1", 0).toString())
-        midterm2.setText(sharedPreferences.getInt("mid2", 0).toString())
-        finalProject.setText(sharedPreferences.getInt("fp", 0).toString())
+        attendance.setText(sharedPreferences.getInt("attendanceGrade", 0).toString())
+        groupPresentation.setText(sharedPreferences.getInt("groupPresentationGrade", 0).toString())
+        midterm1.setText(sharedPreferences.getInt("midterm1Grade", 0).toString())
+        midterm2.setText(sharedPreferences.getInt("midterm2Grade", 0).toString())
+        finalProject.setText(sharedPreferences.getInt("finalProjectGrade", 0).toString())
     }
 
     private fun createInputFilter(): InputFilter {
@@ -178,13 +176,13 @@ class MainActivity : AppCompatActivity() {
         val finalGrade: TextView = findViewById(R.id.finalGrade)
         val calculateButton: Button = findViewById(R.id.calculateButton)
         calculateButton.setOnClickListener {
-            val attd = attendance.getIntValue()
-            val grpPrs = groupPresentation.getIntValue()
-            val mid1 = midterm1.getIntValue()
-            val mid2 = midterm2.getIntValue()
-            val fp = finalProject.getIntValue()
+            val attendanceGrade = attendance.getIntValue()
+            val groupPresentationGrade = groupPresentation.getIntValue()
+            val midterm1Grade = midterm1.getIntValue()
+            val midterm2Grade = midterm2.getIntValue()
+            val finalProjectGrade = finalProject.getIntValue()
             var total = 0.0
-            var avg by Delegates.notNull<Double>()
+            var average by Delegates.notNull<Double>()
 
             var count = 1
             for (field in homeworkFields) {
@@ -193,45 +191,45 @@ class MainActivity : AppCompatActivity() {
             }
             val hw1 = homeworkField.text.toString().toDoubleOrNull() ?: 0.0
             total += hw1
-            avg = total / count
+            average = total / count
 
 
             with(sharedPreferences.edit()) {
-                putInt("attd", attd)
-                putInt("grpPrs", grpPrs)
-                putInt("mid1", mid1)
-                putInt("mid2", mid2)
-                putInt("fp", fp)
+                putInt("attendanceGrade", attendanceGrade)
+                putInt("groupPresentationGrade", groupPresentationGrade)
+                putInt("midterm1Grade", midterm1Grade)
+                putInt("midterm2Grade", midterm2Grade)
+                putInt("finalProjectGrade", finalProjectGrade)
                 apply()
             }
 
-            val finalGradeValue =
-                calculateFinalGrade(avg, attd, grpPrs, mid1, mid2, fp)
+            val finalGradeValue = calculateFinalGrade(average, attendanceGrade,
+                groupPresentationGrade, midterm1Grade, midterm2Grade, finalProjectGrade)
             finalGrade.text = finalGradeValue.toString()
         }
     }
 
     private fun calculateFinalGrade(
-        avg: Double,
-        attd: Int,
-        grpPrs: Int,
-        mid1: Int,
-        mid2: Int,
-        fp: Int
+        average: Double,
+        attendanceGrade: Int,
+        groupPresentationGrade: Int,
+        midterm1Grade: Int,
+        midterm2Grade: Int,
+        finalProjectGrade: Int
     ): Double {
-        val hwWeight = 0.2
-        val attdWeight = 0.1
-        val grpPrsWeight = 0.1
-        val mid1Weight = 0.1
-        val mid2Weight = 0.2
-        val fpWeight = 0.3
+        val homeworkWeight = 0.2
+        val attendanceWeight = 0.1
+        val groupPresentationWeight = 0.1
+        val midterm1Weight = 0.1
+        val midterm2Weight = 0.2
+        val finalProjectWeight = 0.3
 
-        return avg * hwWeight +
-                attd * attdWeight +
-                grpPrs * grpPrsWeight +
-                mid1 * mid1Weight +
-                mid2 * mid2Weight +
-                fp * fpWeight
+        return average * homeworkWeight +
+                attendanceGrade * attendanceWeight +
+                groupPresentationGrade * groupPresentationWeight +
+                midterm1Grade * midterm1Weight +
+                midterm2Grade * midterm2Weight +
+                finalProjectGrade * finalProjectWeight
     }
 }
 
