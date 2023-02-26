@@ -20,13 +20,13 @@ class MainActivity : AppCompatActivity() {
     private var homeworkFields = mutableListOf<EditText>()
     private lateinit var sharedPreferences: SharedPreferences
 
-    private lateinit var attendance: EditText
-    private lateinit var groupPresentation: EditText
-    private lateinit var midterm1: EditText
-    private lateinit var midterm2: EditText
-    private lateinit var finalProject: EditText
-    private lateinit var homeworkField: EditText
-    private lateinit var homeworkLayout: LinearLayout
+    private lateinit var attendanceEditText: EditText
+    private lateinit var groupPresentationEditText: EditText
+    private lateinit var midterm1EditText: EditText
+    private lateinit var midterm2EditText: EditText
+    private lateinit var finalProjectEditText: EditText
+    private lateinit var homeworkFieldEditText: EditText
+    private lateinit var homeworkLayoutLinearLayout: LinearLayout
 
     private var homeworkCount = 1
 
@@ -70,23 +70,23 @@ class MainActivity : AppCompatActivity() {
 
     private fun initializeViews() {
 
-        attendance = findViewById(R.id.attendance)
-        groupPresentation = findViewById(R.id.groupPresentation)
-        midterm1 = findViewById(R.id.midterm1)
-        midterm2 = findViewById(R.id.midterm2)
-        finalProject = findViewById(R.id.finalProject)
-        homeworkField = findViewById(R.id.homeworkField)
-        homeworkLayout = findViewById(R.id.homeworkLayout)
+        attendanceEditText = findViewById(R.id.attendance)
+        groupPresentationEditText = findViewById(R.id.groupPresentation)
+        midterm1EditText = findViewById(R.id.midterm1)
+        midterm2EditText = findViewById(R.id.midterm2)
+        finalProjectEditText = findViewById(R.id.finalProject)
+        homeworkFieldEditText = findViewById(R.id.homeworkField)
+        homeworkLayoutLinearLayout = findViewById(R.id.homeworkLayout)
 
     }
 
     private fun loadSharedPreferences() {
         sharedPreferences = getSharedPreferences(sharedPreferencesKey, Context.MODE_PRIVATE)
-        attendance.setText(sharedPreferences.getInt("attendanceGrade", 0).toString())
-        groupPresentation.setText(sharedPreferences.getInt("groupPresentationGrade", 0).toString())
-        midterm1.setText(sharedPreferences.getInt("midterm1Grade", 0).toString())
-        midterm2.setText(sharedPreferences.getInt("midterm2Grade", 0).toString())
-        finalProject.setText(sharedPreferences.getInt("finalProjectGrade", 0).toString())
+        attendanceEditText.setText(sharedPreferences.getInt("attendanceGrade", 0).toString())
+        groupPresentationEditText.setText(sharedPreferences.getInt("groupPresentationGrade", 0).toString())
+        midterm1EditText.setText(sharedPreferences.getInt("midterm1Grade", 0).toString())
+        midterm2EditText.setText(sharedPreferences.getInt("midterm2Grade", 0).toString())
+        finalProjectEditText.setText(sharedPreferences.getInt("finalProjectGrade", 0).toString())
     }
 
     private fun createInputFilter(): InputFilter {
@@ -109,7 +109,7 @@ class MainActivity : AppCompatActivity() {
             homeworkFields.forEach { editText ->
                 editText.text.clear()
             }
-            homeworkField.text.clear()
+            homeworkFieldEditText.text.clear()
         }
     }
 
@@ -122,14 +122,14 @@ class MainActivity : AppCompatActivity() {
                 val newHomeworkLabel = "Homework $homeworkCount"
                 val newHomeworkField = EditText(this)
                 newHomeworkField.id = View.generateViewId()
-                newHomeworkField.layoutParams = homeworkField.layoutParams
+                newHomeworkField.layoutParams = homeworkFieldEditText.layoutParams
                 newHomeworkField.inputType = InputType.TYPE_CLASS_NUMBER or
                         InputType.TYPE_NUMBER_FLAG_DECIMAL
                 newHomeworkField.filters = arrayOf(inputFilter)
-                homeworkLayout.addView(TextView(this).apply {
+                homeworkLayoutLinearLayout.addView(TextView(this).apply {
                     text = newHomeworkLabel
                 })
-                homeworkLayout.addView(newHomeworkField)
+                homeworkLayoutLinearLayout.addView(newHomeworkField)
                 homeworkFields.add(newHomeworkField)
             }
             if (homeworkCount == 5) {
@@ -145,9 +145,9 @@ class MainActivity : AppCompatActivity() {
             if (homeworkCount > 1) {
                 homeworkFields.removeLast().let { removedField ->
                     val removedLabelIndex =
-                        homeworkLayout.indexOfChild(removedField) - 1
-                    homeworkLayout.removeViewAt(removedLabelIndex)
-                    homeworkLayout.removeView(removedField)
+                        homeworkLayoutLinearLayout.indexOfChild(removedField) - 1
+                    homeworkLayoutLinearLayout.removeViewAt(removedLabelIndex)
+                    homeworkLayoutLinearLayout.removeView(removedField)
                     homeworkCount--
                     addButton.isEnabled = true
                 }
@@ -158,15 +158,15 @@ class MainActivity : AppCompatActivity() {
     private fun setResetAllGradesListener() {
         val resetAllGrades: Button = findViewById(R.id.resetAllGrades)
         resetAllGrades.setOnClickListener {
-            attendance.text?.clear()
-            groupPresentation.text.clear()
-            midterm1.text.clear()
-            midterm2.text.clear()
-            finalProject.text.clear()
+            attendanceEditText.text?.clear()
+            groupPresentationEditText.text.clear()
+            midterm1EditText.text.clear()
+            midterm2EditText.text.clear()
+            finalProjectEditText.text.clear()
             homeworkFields.forEach { editText ->
                 editText.text.clear()
             }
-            homeworkField.text.clear()
+            homeworkFieldEditText.text.clear()
         }
     }
 
@@ -174,11 +174,11 @@ class MainActivity : AppCompatActivity() {
         val finalGrade: TextView = findViewById(R.id.finalGrade)
         val calculateButton: Button = findViewById(R.id.calculateButton)
         calculateButton.setOnClickListener {
-            val attendanceGrade = attendance.getIntValue()
-            val groupPresentationGrade = groupPresentation.getIntValue()
-            val midterm1Grade = midterm1.getIntValue()
-            val midterm2Grade = midterm2.getIntValue()
-            val finalProjectGrade = finalProject.getIntValue()
+            val attendanceGrade = attendanceEditText.getIntValue()
+            val groupPresentationGrade = groupPresentationEditText.getIntValue()
+            val midterm1Grade = midterm1EditText.getIntValue()
+            val midterm2Grade = midterm2EditText.getIntValue()
+            val finalProjectGrade = finalProjectEditText.getIntValue()
             var total = 0.0
             var average by Delegates.notNull<Double>()
 
@@ -187,7 +187,7 @@ class MainActivity : AppCompatActivity() {
                 count += 1
                 total += field.text.toString().toDoubleOrNull() ?: 0.0
             }
-            val hw1 = homeworkField.text.toString().toDoubleOrNull() ?: 0.0
+            val hw1 = homeworkFieldEditText.text.toString().toDoubleOrNull() ?: 0.0
             total += hw1
             average = total / count
 
