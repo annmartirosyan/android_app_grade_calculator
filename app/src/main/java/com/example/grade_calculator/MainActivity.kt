@@ -13,7 +13,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import kotlin.properties.Delegates
-
 class MainActivity : AppCompatActivity() {
 
     private val sharedPreferencesKey = "user_input_values"
@@ -36,8 +35,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var resetButton: Button
 
     private var homeworkCount = 1
-    private var total = 0.0
-    private var avg by Delegates.notNull<Double>()
 
     @SuppressLint("CutPasteId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,8 +70,8 @@ class MainActivity : AppCompatActivity() {
         editTextHF.filters = arrayOf(inputFilter)
     }
 
-    private fun getEditTextValue(editText: EditText): Int {
-        return editText.text.toString().toIntOrNull() ?: 0
+    private fun EditText.getIntValue(): Int {
+        return this.text.toString().toIntOrNull() ?: 0
     }
 
     private fun initializeViews() {
@@ -190,13 +187,14 @@ class MainActivity : AppCompatActivity() {
     private fun setCalculateButtonListener() {
         try {
             calculateButton.setOnClickListener {
-                val attd = getEditTextValue(attendance)
-                val grpPrs = getEditTextValue(groupPresentation)
-                val mid1 = getEditTextValue(midterm1)
-                val mid2 = getEditTextValue(midterm2)
-                val fp = getEditTextValue(finalProject)
+                val attd = attendance.getIntValue()
+                val grpPrs = groupPresentation.getIntValue()
+                val mid1 = midterm1.getIntValue()
+                val mid2 = midterm2.getIntValue()
+                val fp = finalProject.getIntValue()
+                var total = 0.0
+                var avg by Delegates.notNull<Double>()
 
-                total = 0.0
                 var count = 1
                 for (field in homeworkFields) {
                     count += 1
