@@ -47,52 +47,27 @@ class MainActivity : AppCompatActivity() {
 
     private fun applyFilters() {
         val inputFilter = createInputFilter()
+        val editTextMap = mapOf(
+            R.id.groupPresentation to "groupPresentationGrade",
+            R.id.attendance to "attendanceGrade",
+            R.id.midterm1 to "midterm1Grade",
+            R.id.midterm2 to "midterm2Grade",
+            R.id.finalProject to "finalProjectGrade",
+            R.id.homeworkField to "homeworkFieldGrade"
+        )
+        val defaultGrade = 100
 
-        val editTextGP = findViewById<EditText>(R.id.groupPresentation)
-        val editTextAT = findViewById<EditText>(R.id.attendance)
-        val editTextM1 = findViewById<EditText>(R.id.midterm1)
-        val editTextM2 = findViewById<EditText>(R.id.midterm2)
-        val editTextFP = findViewById<EditText>(R.id.finalProject)
-        val editTextHF = findViewById<EditText>(R.id.homeworkField)
+        editTextMap.forEach { (viewId, key) ->
+            val editText = findViewById<EditText>(viewId)
+            editText.setText(defaultGrade.toString())
+            editText.filters = arrayOf(inputFilter)
 
-        editTextGP.setText("100")
-        editTextAT.setText("100")
-        editTextM1.setText("100")
-        editTextM2.setText("100")
-        editTextFP.setText("100")
-        editTextHF.setText("100")
-
-        editTextGP.filters = arrayOf(inputFilter)
-        editTextAT.filters = arrayOf(inputFilter)
-        editTextM1.filters = arrayOf(inputFilter)
-        editTextM2.filters = arrayOf(inputFilter)
-        editTextFP.filters = arrayOf(inputFilter)
-        editTextHF.filters = arrayOf(inputFilter)
-
-
-        sharedPreferences = getSharedPreferences(sharedPreferencesKey, Context.MODE_PRIVATE)
-        val storedAttendanceGrade = sharedPreferences.getInt("attendanceGrade", 0)
-        val storedGroupPresentationGrade = sharedPreferences.getInt("groupPresentationGrade", 0)
-        val storedMidterm1Grade = sharedPreferences.getInt("midterm1Grade", 0)
-        val storedMidterm2Grade = sharedPreferences.getInt("midterm2Grade", 0)
-        val storedFinalProjectGrade = sharedPreferences.getInt("finalProjectGrade", 0)
-
-        if (storedAttendanceGrade != 0) {
-            editTextAT.setText(storedAttendanceGrade.toString())
+            sharedPreferences = getSharedPreferences(sharedPreferencesKey, Context.MODE_PRIVATE)
+            val storedGrade = sharedPreferences.getInt(key, 0)
+            if (storedGrade != 0) {
+                editText.setText(storedGrade.toString())
+            }
         }
-        if (storedGroupPresentationGrade != 0) {
-            editTextGP.setText(storedGroupPresentationGrade.toString())
-        }
-        if (storedMidterm1Grade != 0) {
-            editTextM1.setText(storedMidterm1Grade.toString())
-        }
-        if (storedMidterm2Grade != 0) {
-            editTextM2.setText(storedMidterm2Grade.toString())
-        }
-        if (storedFinalProjectGrade != 0) {
-            editTextFP.setText(storedFinalProjectGrade.toString())
-        }
-
     }
 
     private fun EditText.getIntValue(): Int {
