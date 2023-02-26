@@ -191,7 +191,14 @@ class MainActivity : AppCompatActivity() {
                 .putInt("finalProjectGrade", finalProjectGrade)
                 .commit()
 
-            finalGrade.text = calculateFinalGrade(average, attendanceGrade, groupPresentationGrade, midterm1Grade, midterm2Grade, finalProjectGrade).toString()
+            finalGrade.text = calculateFinalGrade(
+                average,
+                attendanceGrade,
+                groupPresentationGrade,
+                midterm1Grade,
+                midterm2Grade,
+                finalProjectGrade
+            ).toString()
         }
     }
 
