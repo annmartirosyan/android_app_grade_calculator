@@ -13,6 +13,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import kotlin.properties.Delegates
+
 class MainActivity : AppCompatActivity() {
 
     private val sharedPreferencesKey = "user_input_values"
@@ -26,7 +27,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var finalProject: EditText
     private lateinit var homeworkField: EditText
     private lateinit var homeworkLayout: LinearLayout
-    private lateinit var homeworkButtons: LinearLayout
 
     private var homeworkCount = 1
 
@@ -77,8 +77,6 @@ class MainActivity : AppCompatActivity() {
         finalProject = findViewById(R.id.finalProject)
         homeworkField = findViewById(R.id.homeworkField)
         homeworkLayout = findViewById(R.id.homeworkLayout)
-        homeworkButtons = findViewById(R.id.homeworkButtons)
-
 
     }
 
@@ -160,7 +158,7 @@ class MainActivity : AppCompatActivity() {
     private fun setResetAllGradesListener() {
         val resetAllGrades: Button = findViewById(R.id.resetAllGrades)
         resetAllGrades.setOnClickListener {
-            attendance.text.clear()
+            attendance.text?.clear()
             groupPresentation.text.clear()
             midterm1.text.clear()
             midterm2.text.clear()
@@ -203,8 +201,10 @@ class MainActivity : AppCompatActivity() {
                 apply()
             }
 
-            val finalGradeValue = calculateFinalGrade(average, attendanceGrade,
-                groupPresentationGrade, midterm1Grade, midterm2Grade, finalProjectGrade)
+            val finalGradeValue = calculateFinalGrade(
+                average, attendanceGrade,
+                groupPresentationGrade, midterm1Grade, midterm2Grade, finalProjectGrade
+            )
             finalGrade.text = finalGradeValue.toString()
         }
     }
@@ -232,6 +232,4 @@ class MainActivity : AppCompatActivity() {
                 finalProjectGrade * finalProjectWeight
     }
 }
-
-
 
