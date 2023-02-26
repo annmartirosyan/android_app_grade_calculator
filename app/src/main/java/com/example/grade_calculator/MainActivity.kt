@@ -171,40 +171,33 @@ class MainActivity : AppCompatActivity() {
     private fun setCalculateButtonListener() {
         val finalGrade: TextView = findViewById(R.id.finalGrade)
         val calculateButton: Button = findViewById(R.id.calculateButton)
+
         calculateButton.setOnClickListener {
             val attendanceGrade = attendanceEditText.getIntValue()
             val groupPresentationGrade = groupPresentationEditText.getIntValue()
             val midterm1Grade = midterm1EditText.getIntValue()
             val midterm2Grade = midterm2EditText.getIntValue()
             val finalProjectGrade = finalProjectEditText.getIntValue()
-            var total = 0.0
-            var average by Delegates.notNull<Double>()
+            val homeworkGrades = homeworkFields.map { it.text.toString().toDoubleOrNull() ?: 0.0 }
+            val total =
+                (homeworkGrades.sum() + homeworkFieldEditText.text.toString().toDoubleOrNull()!!)
+                    ?: 0.0
+            val average = calculateAverage(total, homeworkGrades.size + 1)
 
-            var count = 1
-            for (field in homeworkFields) {
-                count += 1
-                total += field.text.toString().toDoubleOrNull() ?: 0.0
-            }
-            val hw1 = homeworkFieldEditText.text.toString().toDoubleOrNull() ?: 0.0
-            total += hw1
-            average = total / count
+            sharedPreferences.edit()
+                .putInt("attendanceGrade", attendanceGrade)
+                .putInt("groupPresentationGrade", groupPresentationGrade)
+                .putInt("midterm1Grade", midterm1Grade)
+                .putInt("midterm2Grade", midterm2Grade)
+                .putInt("finalProjectGrade", finalProjectGrade)
+                .commit()
 
-
-            with(sharedPreferences.edit()) {
-                putInt("attendanceGrade", attendanceGrade)
-                putInt("groupPresentationGrade", groupPresentationGrade)
-                putInt("midterm1Grade", midterm1Grade)
-                putInt("midterm2Grade", midterm2Grade)
-                putInt("finalProjectGrade", finalProjectGrade)
-                apply()
-            }
-
-            val finalGradeValue = calculateFinalGrade(
-                average, attendanceGrade,
-                groupPresentationGrade, midterm1Grade, midterm2Grade, finalProjectGrade
-            )
-            finalGrade.text = finalGradeValue.toString()
+            finalGrade.text = calculateFinalGrade(average, attendanceGrade, groupPresentationGrade, midterm1Grade, midterm2Grade, finalProjectGrade).toString()
         }
+    }
+
+    private fun calculateAverage(total: Double, count: Int): Double {
+        return total / count
     }
 
     private fun calculateFinalGrade(
