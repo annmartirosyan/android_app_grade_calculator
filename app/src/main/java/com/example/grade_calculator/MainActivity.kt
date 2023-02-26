@@ -24,15 +24,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var midterm1: EditText
     private lateinit var midterm2: EditText
     private lateinit var finalProject: EditText
-    private lateinit var calculateButton: Button
-    private lateinit var finalGrade: TextView
-    private lateinit var addButton: Button
-    private lateinit var removeButton: Button
     private lateinit var homeworkField: EditText
     private lateinit var homeworkLayout: LinearLayout
     private lateinit var homeworkButtons: LinearLayout
-    private lateinit var resetAllGrades: Button
-    private lateinit var resetButton: Button
 
     private var homeworkCount = 1
 
@@ -75,20 +69,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initializeViews() {
+
         attendance = findViewById(R.id.attendance)
         groupPresentation = findViewById(R.id.groupPresentation)
         midterm1 = findViewById(R.id.midterm1)
         midterm2 = findViewById(R.id.midterm2)
         finalProject = findViewById(R.id.finalProject)
-        calculateButton = findViewById(R.id.calculateButton)
-        finalGrade = findViewById(R.id.finalGrade)
-        addButton = findViewById(R.id.addButton)
-        removeButton = findViewById(R.id.removeButton)
+
+
         homeworkField = findViewById(R.id.homeworkField)
         homeworkLayout = findViewById(R.id.homeworkLayout)
         homeworkButtons = findViewById(R.id.homeworkButtons)
-        resetAllGrades = findViewById(R.id.resetAllGrades)
-        resetButton = findViewById(R.id.resetButton)
+
+
     }
 
     private fun loadSharedPreferences() {
@@ -103,7 +96,7 @@ class MainActivity : AppCompatActivity() {
     private fun createInputFilter(): InputFilter {
         return InputFilter { source, start, end, dest, dstart, dend ->
             val input = (dest.subSequence(0, dstart).toString() + source.subSequence(start, end) +
-                    dest.subSequence(dend, dest.length)).toString()
+                    dest.subSequence(dend, dest.length))
             if (input.length > 3 || (input.startsWith("0") && input.length > 1) ||
                 input.toDoubleOrNull() == null || input.toDouble() !in 0.0..100.0
             ) {
@@ -115,20 +108,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setResetButtonListener() {
-        try {
-            resetButton.setOnClickListener {
-                homeworkFields.forEach { editText ->
-                    editText.text.clear()
-                }
-                homeworkField.text.clear()
+        val resetButton: Button = findViewById(R.id.resetButton)
+        resetButton.setOnClickListener {
+            homeworkFields.forEach { editText ->
+                editText.text.clear()
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
+            homeworkField.text.clear()
         }
     }
 
     private fun addHomeworkField() {
         val inputFilter = createInputFilter()
+        val addButton: Button = findViewById(R.id.addButton)
         addButton.setOnClickListener {
             if (homeworkCount < 5) {
                 homeworkCount++
@@ -152,13 +143,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setRemoveButton() {
+        val addButton: Button = findViewById(R.id.addButton)
+        val removeButton: Button = findViewById(R.id.removeButton)
         removeButton.setOnClickListener {
             if (homeworkCount > 1) {
-                homeworkFields.removeLast()?.let { removedField ->
+                homeworkFields.removeLast().let { removedField ->
                     val removedLabelIndex =
-                        homeworkLayout.indexOfChild(removedField) - 1 // index of corresponding label
-                    homeworkLayout.removeViewAt(removedLabelIndex) // remove the label
-                    homeworkLayout.removeView(removedField) // remove the field
+                        homeworkLayout.indexOfChild(removedField) - 1
+                    homeworkLayout.removeViewAt(removedLabelIndex)
+                    homeworkLayout.removeView(removedField)
                     homeworkCount--
                     addButton.isEnabled = true
                 }
@@ -167,59 +160,54 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setResetAllGradesListener() {
-        try {
-            resetAllGrades.setOnClickListener {
-                attendance.text.clear()
-                groupPresentation.text.clear()
-                midterm1.text.clear()
-                midterm2.text.clear()
-                finalProject.text.clear()
-                homeworkFields.forEach { editText ->
-                    editText.text.clear()
-                }
-                homeworkField.text.clear()
+        val resetAllGrades: Button = findViewById(R.id.resetAllGrades)
+        resetAllGrades.setOnClickListener {
+            attendance.text.clear()
+            groupPresentation.text.clear()
+            midterm1.text.clear()
+            midterm2.text.clear()
+            finalProject.text.clear()
+            homeworkFields.forEach { editText ->
+                editText.text.clear()
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
+            homeworkField.text.clear()
         }
     }
 
     private fun setCalculateButtonListener() {
-        try {
-            calculateButton.setOnClickListener {
-                val attd = attendance.getIntValue()
-                val grpPrs = groupPresentation.getIntValue()
-                val mid1 = midterm1.getIntValue()
-                val mid2 = midterm2.getIntValue()
-                val fp = finalProject.getIntValue()
-                var total = 0.0
-                var avg by Delegates.notNull<Double>()
+        val finalGrade: TextView = findViewById(R.id.finalGrade)
+        val calculateButton: Button = findViewById(R.id.calculateButton)
+        calculateButton.setOnClickListener {
+            val attd = attendance.getIntValue()
+            val grpPrs = groupPresentation.getIntValue()
+            val mid1 = midterm1.getIntValue()
+            val mid2 = midterm2.getIntValue()
+            val fp = finalProject.getIntValue()
+            var total = 0.0
+            var avg by Delegates.notNull<Double>()
 
-                var count = 1
-                for (field in homeworkFields) {
-                    count += 1
-                    total += field.text.toString().toDoubleOrNull() ?: 0.0
-                }
-                val hw1 = homeworkField.text.toString().toDoubleOrNull() ?: 0.0
-                total += hw1
-                avg = total / count
-
-
-                with(sharedPreferences.edit()) {
-                    putInt("attd", attd)
-                    putInt("grpPrs", grpPrs)
-                    putInt("mid1", mid1)
-                    putInt("mid2", mid2)
-                    putInt("fp", fp)
-                    apply()
-                }
-
-                val finalGradeValue =
-                    calculateFinalGrade(avg, attd, grpPrs, mid1, mid2, fp)
-                finalGrade.text = finalGradeValue.toString()
+            var count = 1
+            for (field in homeworkFields) {
+                count += 1
+                total += field.text.toString().toDoubleOrNull() ?: 0.0
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
+            val hw1 = homeworkField.text.toString().toDoubleOrNull() ?: 0.0
+            total += hw1
+            avg = total / count
+
+
+            with(sharedPreferences.edit()) {
+                putInt("attd", attd)
+                putInt("grpPrs", grpPrs)
+                putInt("mid1", mid1)
+                putInt("mid2", mid2)
+                putInt("fp", fp)
+                apply()
+            }
+
+            val finalGradeValue =
+                calculateFinalGrade(avg, attd, grpPrs, mid1, mid2, fp)
+            finalGrade.text = finalGradeValue.toString()
         }
     }
 
