@@ -1,5 +1,8 @@
 The script is a grade calculator application for an Android device. It allows users to input their grades for different coursework components, and calculates their final grade based on a weighting system. The script is written in Kotlin programming language, which is used for developing Android applications.
 
+Photo of the app:
+![alt text](https://github.com/Anna377/android_app_grade_calculator/blob/main/app/app_screenshot.png?raw=true)
+
 The script has a class named "MainActivity" which extends "AppCompatActivity". It also contains several variables, functions and a lifecycle method.
 
 Variables
