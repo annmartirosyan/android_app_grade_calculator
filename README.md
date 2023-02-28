@@ -21,6 +21,7 @@ setRemoveButton() function sets a listener for the remove button. When clicked, 
 setResetAllGradesListener() function sets a listener for the reset all grades button. When clicked, it clears all the coursework component fields and the homework fields.
 setCalculateButtonListener() function sets a listener for the calculate button. When clicked, it calculates the final grade for the user based on the weighted average of the different coursework components.
 
+
 Lifecycle method
 onCreate() is a lifecycle method that is called when the activity is created. It sets the content view to the main activity layout, initializes the views in the application, applies input filters to the EditText objects, sets listeners for the different buttons, and adds a default homework field.
 Overall, the script allows users to input their grades and calculate their final grade based on a weighting system. The script is also flexible, allowing users to add or remove homework fields as needed.
