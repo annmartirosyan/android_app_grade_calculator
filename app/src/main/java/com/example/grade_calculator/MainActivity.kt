@@ -166,6 +166,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun EditText.parseNullableInt(): Int? {
+        return text?.toString()?.toIntOrNull()
+    }
+
+    private fun EditText.parseNullableDouble(): Double? {
+        return text?.toString()?.toDoubleOrNull()
+    }
+
     private fun setCalculateButtonListener() {
         val finalGrade: TextView = findViewById(R.id.finalGrade)
         val calculateButton: Button = findViewById(R.id.calculateButton)
@@ -176,13 +184,14 @@ class MainActivity : AppCompatActivity() {
                 isResetAllGradesPressed = false
                 return@setOnClickListener
             }
-            val attendanceGrade = attendanceEditText.text?.toString()?.toIntOrNull() ?: 0
-            val groupPresentationGrade = groupPresentationEditText.text?.toString()?.toIntOrNull() ?: 0
-            val midterm1Grade = midterm1EditText.text?.toString()?.toIntOrNull() ?: 0
-            val midterm2Grade = midterm2EditText.text?.toString()?.toIntOrNull() ?: 0
-            val finalProjectGrade = finalProjectEditText.text?.toString()?.toIntOrNull() ?: 0
-            val homeworkGrades = homeworkFields.map { it.text?.toString()?.toDoubleOrNull() ?: 0.0 }
-            val total = (homeworkFieldEditText.text?.toString()?.toDoubleOrNull() ?: 0.0) + homeworkGrades.sum()
+
+            val attendanceGrade = attendanceEditText.parseNullableInt() ?: 0
+            val groupPresentationGrade = groupPresentationEditText.parseNullableInt() ?: 0
+            val midterm1Grade = midterm1EditText.parseNullableInt() ?: 0
+            val midterm2Grade = midterm2EditText.parseNullableInt() ?: 0
+            val finalProjectGrade = finalProjectEditText.parseNullableInt() ?: 0
+            val homeworkGrades = homeworkFields.map { it.parseNullableDouble() ?: 0.0 }
+            val total = (homeworkFieldEditText.parseNullableDouble() ?: 0.0) + homeworkGrades.sum()
 
             val average = calculateAverage(total, homeworkGrades.size + 1)
 
@@ -204,6 +213,8 @@ class MainActivity : AppCompatActivity() {
             )?.toString()
         }
     }
+
+
 
     private fun calculateAverage(total: Double, count: Int): Double {
         return total / count
