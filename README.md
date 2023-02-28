@@ -1,11 +1,12 @@
 The script is a grade calculator application for an Android device. It allows users to input their grades for different coursework components, and calculates their final grade based on a weighting system. The script is written in Kotlin programming language, which is used for developing Android applications.
 
 Photo of the app:
+
 ![alt text](https://github.com/Anna377/android_app_grade_calculator/blob/main/app/app_screenshot.png?raw=true)
 
 The script has a class named "MainActivity" which extends "AppCompatActivity". It also contains several variables, functions and a lifecycle method.
 
-*Variables*
+**VARIABLES**
 sharedPreferencesKey is a string constant that is used to store user input values in shared preferences.
 
 homeworkFields is a mutable list of EditText objects, used to store dynamically generated homework fields. 
@@ -19,7 +20,7 @@ homeworkLayoutLinearLayout is a LinearLayout object that stores the dynamically 
 homeworkCount is an integer variable that tracks the number of dynamically generated homework fields.
 
 
-*Functions*
+**FUNCTIONS**
 
 applyFilters() function applies input filters to the different EditText objects in the application. It also sets default grades for the coursework components, and retrieves any stored values from shared preferences if they exist.
 
@@ -38,10 +39,10 @@ setResetAllGradesListener() function sets a listener for the reset all grades bu
 setCalculateButtonListener() function sets a listener for the calculate button. When clicked, it calculates the final grade for the user based on the weighted average of the different coursework components.
 
 
-Lifecycle method
+**LIFECYCLE METHOD**
 onCreate() is a lifecycle method that is called when the activity is created. It sets the content view to the main activity layout, initializes the views in the application, applies input filters to the EditText objects, sets listeners for the different buttons, and adds a default homework field.
 
-
+**TESTING**
 Also the script has unittest The FinalGradeCalculatorTest class is a unit test class that tests the calculateFinalGrade function of the MainActivity class in the com.example.grade_calculator package. The test method is annotated with @Test annotation to indicate that it's a test method that should be executed.
 
 The test method test CalculateFinalGrade which tests whether the calculateFinalGrade function returns the expected final grade for a given set of input grades. It initializes the input variables average, attendanceGrade, groupPresentationGrade, midterm1Grade, midterm2Grade, and finalProjectGrade with some specific values, and calculates the expected final grade based on these input grades using the formula:
