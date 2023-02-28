@@ -1,49 +1,26 @@
-This is an Android app that calculates a final grade for a course based on user input.
-The user inputs values for attendance, group presentation, two midterms, a final project,
-and up to five homework assignments. The app applies weighted percentages to these values
-and calculates a final grade.
+The script is a grade calculator application for an Android device. It allows users to input their grades for different coursework components, and calculates their final grade based on a weighting system. The script is written in Kotlin programming language, which is used for developing Android applications.
 
-![alt text](https://github.com/Anna377/android_app_grade_calculator/blob/main/app/app_screenshot.png?raw=true)
-The following is a brief overview of the different parts of the code:
-
-
-Import statements
-These are import statements that import classes and functions from the Android and Kotlin
-standard libraries.
-
-
-MainActivity class
-This is the main activity of the app that extends the AppCompatActivity class.
-
-
-Properties
-sharedPreferencesKey: A String constant that is used as the key for accessing and storing values in SharedPreferences.
-homeworkFields: A mutable list of EditText fields that store values for up to five homework assignments.
-attendance, groupPresentation, midterm1, midterm2, finalProject: EditText fields that store values for attendance, group presentation, and the two midterms and the final project, respectively.
-calculateButton: A Button that the user clicks to calculate the final grade.
-finalGrade: A TextView that displays the calculated final grade.
-addButton: A Button that the user clicks to add a new homework assignment.
-homeworkField: An EditText field that stores the value for a new homework assignment.
-homeworkLayout: A LinearLayout that holds the EditText fields for homework assignments.
-homeworkButtons: A LinearLayout that holds the buttons for adding and resetting homework assignments.
-resetAllGrades: A Button that the user clicks to reset all input fields.
-resetButton: A Button that the user clicks to reset only the homework assignments.
-
+The script has a class named "MainActivity" which extends "AppCompatActivity". It also contains several variables, functions and a lifecycle method.
 
 Variables
-homeworkCount: An integer that tracks the number of homework assignments currently displayed.
-total: A double that stores the sum of all homework grades.
-avg: A double that stores the weighted average of all grades.
-onCreate() function
-This function is called when the activity is created. It initializes all of the properties and variables and sets up the event listeners for the buttons. It also loads the values for attendance, group presentation, midterms, and final project from SharedPreferences.
+sharedPreferencesKey is a string constant that is used to store user input values in shared preferences.
+homeworkFields is a mutable list of EditText objects, used to store dynamically generated homework fields.
+sharedPreferences is a SharedPreferences object used to store user input values in the application.
+attendanceEditText, groupPresentationEditText, midterm1EditText, midterm2EditText, finalProjectEditText, homeworkFieldEditText are EditText objects used to represent the different coursework components in the application.
+homeworkLayoutLinearLayout is a LinearLayout object that stores the dynamically generated homework fields.
+homeworkCount is an integer variable that tracks the number of dynamically generated homework fields.
 
 
-Helper functions
-getEditTextValue(): This function takes an EditText field and returns its integer value. If the field is empty or not a valid integer, it returns 0.
+Functions
+applyFilters() function applies input filters to the different EditText objects in the application. It also sets default grades for the coursework components, and retrieves any stored values from shared preferences if they exist.
+createInputFilter() function creates an input filter that restricts user input to numbers between 0 and 100.
+initializeViews() function initializes the different EditText and LinearLayout objects in the application.
+setResetButtonListener() function sets a listener for the reset button. When clicked, it clears all homework fields and the homework field input box.
+addHomeworkField() function adds a new homework field to the application when the add button is clicked. It restricts the number of homework fields to a maximum of 5.
+setRemoveButton() function sets a listener for the remove button. When clicked, it removes the last homework field that was added.
+setResetAllGradesListener() function sets a listener for the reset all grades button. When clicked, it clears all the coursework component fields and the homework fields.
+setCalculateButtonListener() function sets a listener for the calculate button. When clicked, it calculates the final grade for the user based on the weighted average of the different coursework components.
 
-
-Event listeners
-resetButton.setOnClickListener(): This event listener is triggered when the user clicks the "Reset" button for the homework assignments. It clears the values of all homework assignments.
-addButton.setOnClickListener(): This event listener is triggered when the user clicks the "Add" button for a new homework assignment. It adds a new EditText field to the homework layout if there are fewer than five homework assignments displayed.
-resetAllGrades.setOnClickListener(): This event listener is triggered when the user clicks the "Reset All" button. It clears the values of all input fields.
-calculateButton.setOnClickListener(): This event listener is triggered when the user clicks the "Calculate" button. It retrieves the values of all input fields, calculates the weighted average of all grades, and displays the result in the finalGrade TextView.
+Lifecycle method
+onCreate() is a lifecycle method that is called when the activity is created. It sets the content view to the main activity layout, initializes the views in the application, applies input filters to the EditText objects, sets listeners for the different buttons, and adds a default homework field.
+Overall, the script allows users to input their grades and calculate their final grade based on a weighting system. The script is also flexible, allowing users to add or remove homework fields as needed.

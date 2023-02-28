@@ -7,10 +7,7 @@ import android.os.Bundle
 import android.text.InputFilter
 import android.text.InputType
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
@@ -28,6 +25,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var homeworkLayoutLinearLayout: LinearLayout
 
     private var homeworkCount = 1
+    private var isResetAllGradesPressed = false
 
     @SuppressLint("CutPasteId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -155,6 +153,7 @@ class MainActivity : AppCompatActivity() {
     private fun setResetAllGradesListener() {
         val resetAllGrades: Button = findViewById(R.id.resetAllGrades)
         resetAllGrades.setOnClickListener {
+            isResetAllGradesPressed = true
             attendanceEditText.text?.clear()
             groupPresentationEditText.text.clear()
             midterm1EditText.text.clear()
@@ -172,24 +171,28 @@ class MainActivity : AppCompatActivity() {
         val calculateButton: Button = findViewById(R.id.calculateButton)
 
         calculateButton.setOnClickListener {
-            val attendanceGrade = attendanceEditText.getIntValue()
-            val groupPresentationGrade = groupPresentationEditText.getIntValue()
-            val midterm1Grade = midterm1EditText.getIntValue()
-            val midterm2Grade = midterm2EditText.getIntValue()
-            val finalProjectGrade = finalProjectEditText.getIntValue()
-            val homeworkGrades = homeworkFields.map { it.text.toString().toDoubleOrNull() ?: 0.0 }
-            val total =
-                (homeworkGrades.sum() + homeworkFieldEditText.text.toString().toDoubleOrNull()!!)
-                    ?: 0.0
+            if (isResetAllGradesPressed) {
+                Toast.makeText(this, "Please enter grades before calculating", Toast.LENGTH_SHORT).show()
+                isResetAllGradesPressed = false
+                return@setOnClickListener
+            }
+            val attendanceGrade = attendanceEditText.text?.toString()?.toIntOrNull() ?: 0
+            val groupPresentationGrade = groupPresentationEditText.text?.toString()?.toIntOrNull() ?: 0
+            val midterm1Grade = midterm1EditText.text?.toString()?.toIntOrNull() ?: 0
+            val midterm2Grade = midterm2EditText.text?.toString()?.toIntOrNull() ?: 0
+            val finalProjectGrade = finalProjectEditText.text?.toString()?.toIntOrNull() ?: 0
+            val homeworkGrades = homeworkFields.map { it.text?.toString()?.toDoubleOrNull() ?: 0.0 }
+            val total = (homeworkFieldEditText.text?.toString()?.toDoubleOrNull() ?: 0.0) + homeworkGrades.sum()
+
             val average = calculateAverage(total, homeworkGrades.size + 1)
 
             sharedPreferences.edit()
-                .putInt("attendanceGrade", attendanceGrade)
-                .putInt("groupPresentationGrade", groupPresentationGrade)
-                .putInt("midterm1Grade", midterm1Grade)
-                .putInt("midterm2Grade", midterm2Grade)
-                .putInt("finalProjectGrade", finalProjectGrade)
-                .commit()
+                ?.putInt("attendanceGrade", attendanceGrade)
+                ?.putInt("groupPresentationGrade", groupPresentationGrade)
+                ?.putInt("midterm1Grade", midterm1Grade)
+                ?.putInt("midterm2Grade", midterm2Grade)
+                ?.putInt("finalProjectGrade", finalProjectGrade)
+                ?.commit()
 
             finalGrade.text = calculateFinalGrade(
                 average,
@@ -198,7 +201,7 @@ class MainActivity : AppCompatActivity() {
                 midterm1Grade,
                 midterm2Grade,
                 finalProjectGrade
-            ).toString()
+            )?.toString()
         }
     }
 
