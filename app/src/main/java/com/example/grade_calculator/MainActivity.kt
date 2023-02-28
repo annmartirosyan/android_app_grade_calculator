@@ -210,7 +210,7 @@ class MainActivity : AppCompatActivity() {
                 midterm1Grade,
                 midterm2Grade,
                 finalProjectGrade
-            )?.toString()
+            ).toString()
         }
     }
 
