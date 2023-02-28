@@ -7,6 +7,7 @@ Photo of the app:
 The script has a class named "MainActivity" which extends "AppCompatActivity". It also contains several variables, functions and a lifecycle method.
 
 **VARIABLES**
+
 sharedPreferencesKey is a string constant that is used to store user input values in shared preferences.
 
 homeworkFields is a mutable list of EditText objects, used to store dynamically generated homework fields. 
@@ -40,6 +41,7 @@ setCalculateButtonListener() function sets a listener for the calculate button. 
 
 
 **LIFECYCLE METHOD**
+
 onCreate() is a lifecycle method that is called when the activity is created. It sets the content view to the main activity layout, initializes the views in the application, applies input filters to the EditText objects, sets listeners for the different buttons, and adds a default homework field.
 
 **TESTING**
