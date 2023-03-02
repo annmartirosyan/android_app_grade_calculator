@@ -6,7 +6,7 @@ Photo of the app:
 
 The script has a class named "MainActivity" which extends "AppCompatActivity". It also contains several variables, functions and a lifecycle method.
 
-**VARIABLES**
+**____________________VARIABLES____________________**
 
 sharedPreferencesKey is a string constant that is used to store user input values in shared preferences.
 
@@ -21,7 +21,7 @@ homeworkLayoutLinearLayout is a LinearLayout object that stores the dynamically 
 homeworkCount is an integer variable that tracks the number of dynamically generated homework fields.
 
 
-**FUNCTIONS**
+**____________________FUNCTIONS____________________**
 
 applyFilters() function applies input filters to the different EditText objects in the application. It also sets default grades for the coursework components, and retrieves any stored values from shared preferences if they exist.
 
@@ -40,7 +40,7 @@ setResetAllGradesListener() function sets a listener for the reset all grades bu
 setCalculateButtonListener() function sets a listener for the calculate button. When clicked, it calculates the final grade for the user based on the weighted average of the different coursework components.
 
 
-**LIFECYCLE METHOD**
+**____________________LIFECYCLE METHOD____________________**
 
 onCreate() is a lifecycle method that is called when the activity is created. It sets the content view to the main activity layout, initializes the views in the application, applies input filters to the EditText objects, sets listeners for the different buttons, and adds a default homework field.
 
