@@ -1,12 +1,14 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:nestedScrollingEnabled="true"
         android:orientation="vertical"
+        tools:viewBindingIgnore="true"
         android:gravity="center">
 
     <LinearLayout
@@ -14,6 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        tools:viewBindingIgnore="true"
         android:padding="15dp">
 
 
@@ -22,6 +25,7 @@
             android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
+            tools:viewBindingIgnore="true"
             android:text="Add Homework" />
 
         <Button
@@ -29,6 +33,7 @@
             android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
+            tools:viewBindingIgnore="true"
             android:text="Drop Homework" />
 
 
@@ -38,6 +43,7 @@
             android:id="@+id/resetButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            tools:viewBindingIgnore="true"
             android:layout_marginEnd="5dp"
             android:text="Reset Grades" />
 
@@ -46,18 +52,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        tools:viewBindingIgnore="true"
         android:padding="16dp">
 
         <TextView
             android:id="@+id/homeworkLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            tools:viewBindingIgnore="true"
             android:text="Homework 1" />
 
         <EditText
             android:id="@+id/homeworkField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            tools:viewBindingIgnore="true"
             android:text="100"
             android:inputType="numberDecimal" />
 
@@ -80,6 +89,7 @@
             android:maxLength="3"
             android:digits="0123456789"
             android:imeOptions="flagNoFullscreen"
+            tools:viewBindingIgnore="true"
             android:imeActionLabel="Done"
             android:hint="Attendance" />
 
@@ -100,6 +110,7 @@
             android:maxLength="3"
             android:digits="0123456789"
             android:imeOptions="flagNoFullscreen"
+            tools:viewBindingIgnore="true"
             android:imeActionLabel="Done"
             android:text="100"
             android:hint="Group Presentation" />
@@ -121,6 +132,7 @@
             android:text="100"
             android:digits="0123456789"
             android:imeOptions="flagNoFullscreen"
+            tools:viewBindingIgnore="true"
             android:imeActionLabel="Done"
             android:hint="Midterm 1" />
 
@@ -141,6 +153,7 @@
             android:text="100"
             android:digits="0123456789"
             android:imeOptions="flagNoFullscreen"
+            tools:viewBindingIgnore="true"
             android:imeActionLabel="Done"
             android:hint="Midterm 2" />
 
@@ -161,6 +174,7 @@
             android:text="100"
             android:digits="0123456789"
             android:imeOptions="flagNoFullscreen"
+            tools:viewBindingIgnore="true"
             android:imeActionLabel="Done"
             android:hint="Final Project" />
 
@@ -169,12 +183,14 @@
     <Button
         android:id="@+id/resetAllGrades"
         android:layout_width="match_parent"
+        tools:viewBindingIgnore="true"
         android:layout_height="wrap_content"
         android:text="Reset all grades" />
 
     <Button
         android:id="@+id/calculateButton"
         android:layout_width="match_parent"
+        tools:viewBindingIgnore="true"
         android:layout_height="wrap_content"
         android:text="Calculate" />
 
@@ -182,6 +198,7 @@
         android:id="@+id/finalGrade"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        tools:viewBindingIgnore="true"
         android:textSize="18sp"
         android:textStyle="bold"
         android:paddingTop="16dp"
