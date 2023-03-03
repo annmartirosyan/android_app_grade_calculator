@@ -181,7 +181,8 @@ class MainActivity : AppCompatActivity() {
 
         calculateButton.setOnClickListener {
             if (isResetAllGradesPressed) {
-                Toast.makeText(this, "Please enter grades before calculating", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Please enter grades before calculating", Toast.LENGTH_SHORT)
+                    .show()
                 isResetAllGradesPressed = false
                 return@setOnClickListener
             }
@@ -214,7 +215,6 @@ class MainActivity : AppCompatActivity() {
             ).toString()
         }
     }
-
 
 
     private fun calculateAverage(total: Double, count: Int): Double {
