@@ -9,12 +9,15 @@ import android.text.InputType
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import com.example.grade_calculator.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     private val sharedPreferencesKey = "user_input_values"
     private var homeworkFields = mutableListOf<EditText>()
     private lateinit var sharedPreferences: SharedPreferences
+
+    private lateinit var binding: ActivityMainBinding
 
     private lateinit var attendanceEditText: EditText
     private lateinit var groupPresentationEditText: EditText
@@ -30,7 +33,9 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("CutPasteId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         initializeViews()
         applyFilters()
@@ -67,19 +72,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun EditText.getIntValue(): Int {
-        return this.text.toString().toIntOrNull() ?: 0
-    }
-
     private fun initializeViews() {
 
-        attendanceEditText = findViewById(R.id.attendance)
-        groupPresentationEditText = findViewById(R.id.groupPresentation)
-        midterm1EditText = findViewById(R.id.midterm1)
-        midterm2EditText = findViewById(R.id.midterm2)
-        finalProjectEditText = findViewById(R.id.finalProject)
-        homeworkFieldEditText = findViewById(R.id.homeworkField)
-        homeworkLayoutLinearLayout = findViewById(R.id.homeworkLayout)
+        attendanceEditText = binding.attendance
+        groupPresentationEditText = binding.groupPresentation
+        midterm1EditText = binding.midterm1
+        midterm2EditText = binding.midterm2
+        finalProjectEditText = binding.finalProject
+        homeworkFieldEditText = binding.homeworkField
+        homeworkLayoutLinearLayout = binding.homeworkLayout
 
     }
 
@@ -99,7 +100,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setResetButtonListener() {
-        val resetButton: Button = findViewById(R.id.resetButton)
+        val resetButton: Button = binding.resetButton
         resetButton.setOnClickListener {
             homeworkFields.forEach { editText ->
                 editText.text.clear()
@@ -110,7 +111,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun addHomeworkField() {
         val inputFilter = createInputFilter()
-        val addButton: Button = findViewById(R.id.addButton)
+        val addButton: Button = binding.addButton
         addButton.setOnClickListener {
             if (homeworkCount < 5) {
                 homeworkCount++
@@ -134,8 +135,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setRemoveButton() {
-        val addButton: Button = findViewById(R.id.addButton)
-        val removeButton: Button = findViewById(R.id.removeButton)
+        val addButton: Button = binding.addButton
+        val removeButton: Button = binding.removeButton
         removeButton.setOnClickListener {
             if (homeworkCount > 1) {
                 homeworkFields.removeLast().let { removedField ->
@@ -151,7 +152,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setResetAllGradesListener() {
-        val resetAllGrades: Button = findViewById(R.id.resetAllGrades)
+        val resetAllGrades: Button = binding.resetAllGrades
         resetAllGrades.setOnClickListener {
             isResetAllGradesPressed = true
             attendanceEditText.text?.clear()
@@ -175,8 +176,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setCalculateButtonListener() {
-        val finalGrade: TextView = findViewById(R.id.finalGrade)
-        val calculateButton: Button = findViewById(R.id.calculateButton)
+        val finalGrade: TextView = binding.finalGrade
+        val calculateButton: Button = binding.calculateButton
 
         calculateButton.setOnClickListener {
             if (isResetAllGradesPressed) {
