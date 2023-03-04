@@ -19,13 +19,13 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private lateinit var attendanceEditText: EditText
-    private lateinit var groupPresentationEditText: EditText
-    private lateinit var midterm1EditText: EditText
-    private lateinit var midterm2EditText: EditText
-    private lateinit var finalProjectEditText: EditText
-    private lateinit var homeworkFieldEditText: EditText
-    private lateinit var homeworkLayoutLinearLayout: LinearLayout
+    private var attendanceEditText: EditText? = null
+    private var groupPresentationEditText: EditText? = null
+    private var midterm1EditText: EditText? = null
+    private var midterm2EditText: EditText? = null
+    private var finalProjectEditText: EditText? = null
+    private var homeworkFieldEditText: EditText? = null
+    private var homeworkLayoutLinearLayout: LinearLayout? = null
 
     private var homeworkCount = 1
     private var isResetAllGradesPressed = false
@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(binding!!.root)
 
         initializeViews()
         applyFilters()
@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity() {
             homeworkFields.forEach { editText ->
                 editText.text.clear()
             }
-            homeworkFieldEditText.text.clear()
+            homeworkFieldEditText?.text?.clear()
         }
     }
 
@@ -118,14 +118,14 @@ class MainActivity : AppCompatActivity() {
                 val newHomeworkLabel = "Homework $homeworkCount"
                 val newHomeworkField = EditText(this)
                 newHomeworkField.id = View.generateViewId()
-                newHomeworkField.layoutParams = homeworkFieldEditText.layoutParams
+                newHomeworkField.layoutParams = homeworkFieldEditText?.layoutParams
                 newHomeworkField.inputType = InputType.TYPE_CLASS_NUMBER or
                         InputType.TYPE_NUMBER_FLAG_DECIMAL
                 newHomeworkField.filters = arrayOf(inputFilter)
-                homeworkLayoutLinearLayout.addView(TextView(this).apply {
+                homeworkLayoutLinearLayout?.addView(TextView(this).apply {
                     text = newHomeworkLabel
                 })
-                homeworkLayoutLinearLayout.addView(newHomeworkField)
+                homeworkLayoutLinearLayout?.addView(newHomeworkField)
                 homeworkFields.add(newHomeworkField)
             }
             if (homeworkCount == 5) {
@@ -141,9 +141,11 @@ class MainActivity : AppCompatActivity() {
             if (homeworkCount > 1) {
                 homeworkFields.removeLast().let { removedField ->
                     val removedLabelIndex =
-                        homeworkLayoutLinearLayout.indexOfChild(removedField) - 1
-                    homeworkLayoutLinearLayout.removeViewAt(removedLabelIndex)
-                    homeworkLayoutLinearLayout.removeView(removedField)
+                        (homeworkLayoutLinearLayout?.indexOfChild(removedField))?.minus(1)
+                    if (removedLabelIndex != null) {
+                        homeworkLayoutLinearLayout?.removeViewAt(removedLabelIndex)
+                    }
+                    homeworkLayoutLinearLayout?.removeView(removedField)
                     homeworkCount--
                     addButton.isEnabled = true
                 }
@@ -155,15 +157,15 @@ class MainActivity : AppCompatActivity() {
         val resetAllGrades: Button = binding.resetAllGrades
         resetAllGrades.setOnClickListener {
             isResetAllGradesPressed = true
-            attendanceEditText.text?.clear()
-            groupPresentationEditText.text.clear()
-            midterm1EditText.text.clear()
-            midterm2EditText.text.clear()
-            finalProjectEditText.text.clear()
+            attendanceEditText?.text?.clear()
+            groupPresentationEditText?.text?.clear()
+            midterm1EditText?.text?.clear()
+            midterm2EditText?.text?.clear()
+            finalProjectEditText?.text?.clear()
             homeworkFields.forEach { editText ->
                 editText.text.clear()
             }
-            homeworkFieldEditText.text.clear()
+            homeworkFieldEditText?.text?.clear()
         }
     }
 
@@ -187,13 +189,13 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val attendanceGrade = attendanceEditText.parseNullableInt() ?: 0
-            val groupPresentationGrade = groupPresentationEditText.parseNullableInt() ?: 0
-            val midterm1Grade = midterm1EditText.parseNullableInt() ?: 0
-            val midterm2Grade = midterm2EditText.parseNullableInt() ?: 0
-            val finalProjectGrade = finalProjectEditText.parseNullableInt() ?: 0
+            val attendanceGrade = attendanceEditText?.parseNullableInt() ?: 0
+            val groupPresentationGrade = groupPresentationEditText?.parseNullableInt() ?: 0
+            val midterm1Grade = midterm1EditText?.parseNullableInt() ?: 0
+            val midterm2Grade = midterm2EditText?.parseNullableInt() ?: 0
+            val finalProjectGrade = finalProjectEditText?.parseNullableInt() ?: 0
             val homeworkGrades = homeworkFields.map { it.parseNullableDouble() ?: 0.0 }
-            val total = (homeworkFieldEditText.parseNullableDouble() ?: 0.0) + homeworkGrades.sum()
+            val total = (homeworkFieldEditText?.parseNullableDouble() ?: 0.0) + homeworkGrades.sum()
 
             val average = calculateAverage(total, homeworkGrades.size + 1)
 
