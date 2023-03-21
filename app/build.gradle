@@ -16,6 +16,23 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        create("release") {
+            // You need to specify either an absolute path or include the
+            // keystore file in the same directory as the build.gradle file.
+            storeFile = file("/Users/annamartirosyan/android_keystore_2/my-release-key.jks")
+            storePassword = "077822001"
+            keyAlias = "release"
+            keyPassword = "077822001"
+        }
+    }
+    buildTypes {
+        getByName("release") {
+            signingConfig = signingConfigs.getByName("release")
+
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
